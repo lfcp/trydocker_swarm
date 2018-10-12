@@ -1,0 +1,29 @@
+version: "3"
+
+networks:
+  techunit_employee_net:
+
+services:
+  database:
+    image: lfcp91/techunit_employee_db
+    networks:
+    - techunit_employee_net
+    environment:
+      POSTGRES_DB: "techunit2"
+
+  web:
+    image: lfcp91/techunit_employee_swarm
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.3"
+          memory: 1500M
+      restart_policy:
+        condition: on-failure
+    ports:
+    - "5000:8080"
+    networks:
+    - techunit_employee_net
+
+
